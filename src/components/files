@@ -1,0 +1,286 @@
+import React, { useState } from "react";
+import "./BalanceDetail.css";
+
+const BalanceDetail = () => {
+  const [widgets, setWidgets] = useState<string[]>([]);
+  
+  function handleOnDrag(e: DragEvent, widgetType: string) {
+    e.dataTransfer.setData("widgetType", widgetType);
+  }
+
+  function handleDrop(e: React.DragEvent) {
+    const widgetType = e.dataTransfer.getData("widgetType") as stirng;
+    console.log("widgetType",widgetType);
+    setWidgets([...widgets, widgetType]);
+  }
+
+  function handleDragOver(e: React.DragEvent) {
+    e.preventDefault();
+  }
+
+  return (
+    <div className="App">
+        <div className="widgets">
+            <div className="widget" draggable onDragStart={(e) => handleDrag(e, "Widget A")}>
+                Widget A
+            </div>
+        </div>
+        <div className="widgets">
+            <div className="widget" draggable onDragStart={(e) => handleDrag(e, "Widget B")}>
+                Widget B
+            </div>
+        </div>
+        <div className="widgets">
+            <div className="widget" draggable onDragStart={(e) => handleDrag(e, "Widget C")}>
+                Widget C
+            </div>
+        </div>
+        <div className="page" onDrop={handleDrop} onDragOver={handleDragOver}>
+            {widgets.map((widget, index) => (
+                <div className="dropped-widget" key={index}>
+                    {widget}
+                </div>
+            ))}
+        </div>
+    </div>
+  );
+};
+
+export default BalanceDetail;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import React, { useState } from "react";
+import GridLayout from "react-grid-layout";
+import "./BalanceDetail.css";
+
+const BalanceDetail = () => {
+  const [layout, setLayout] = useState([]);
+  const widgets = ["Widget A", "Widget B", "Widget C", "Widget D", "Widget E"];
+
+  // Track instances of each widget type
+  const [widgetInstances, setWidgetInstances] = useState({});
+
+  const onDragStart = (e, widget) => {
+    e.dataTransfer.setData("text/plain", widget);
+  };
+
+  const getNextInstanceName = (widget) => {
+    setWidgetInstances((prevInstances) => {
+      const count = (prevInstances[widget] || 0) + 1;
+      return { ...prevInstances, [widget]: count };
+    });
+    return (widget + ' ' + (widgetInstances[widget] || 0) + 1);
+  };
+
+  const onDrop = (layout, item, e) => {
+    const widget = e.dataTransfer.getData("text/plain");
+    const instanceName = getNextInstanceName(widget);
+
+    setLayout((prevLayout) => {
+      const existingItemIndex = prevLayout.findIndex((i) => i.i.startsWith(widget));
+      if (existingItemIndex >= 0) {
+        // Update position if item already exists
+        const updatedLayout = [...prevLayout];
+        updatedLayout[existingItemIndex] = {
+          ...updatedLayout[existingItemIndex],
+          x: item.x,
+          y: item.y,
+        };
+        return updatedLayout;
+      } else {
+        // Add new item if it doesn't exist
+        return [
+          ...prevLayout,
+          { i: instanceName, x: item.x, y: item.y, w: 2, h: 2, static: false },
+        ];
+      }
+    });
+  };
+
+  const onDropAreaDrop = (e) => {
+    e.preventDefault();
+    const widget = e.dataTransfer.getData("text/plain");
+    const instanceName = getNextInstanceName(widget);
+
+    setLayout((prevLayout) => {
+      const existingItemIndex = prevLayout.findIndex((i) => i.i.startsWith(widget));
+      if (existingItemIndex >= 0) {
+        // Update position if item already exists
+        const updatedLayout = [...prevLayout];
+        updatedLayout[existingItemIndex] = {
+          ...updatedLayout[existingItemIndex],
+          x: 0,
+          y: 0,
+        };
+        return updatedLayout;
+      } else {
+        // Add new item if it doesn't exist
+        return [
+          ...prevLayout,
+          { i: instanceName, x: 0, y: 0, w: 2, h: 2, static: false },
+        ];
+      }
+    });
+  };
+
+  return (
+    <div className="App">
+      <div
+        className="page"
+        onDrop={onDropAreaDrop}
+        onDragOver={(e) => e.preventDefault()}
+      >
+        <GridLayout
+          className="my-grid"
+          layout={layout}
+          cols={12}
+          rowHeight={100}
+          width={600}
+          isDroppable={true}
+          onDrop={onDrop}
+          onLayoutChange={(newLayout) => setLayout(newLayout)}
+          draggableHandle=".grid-item"
+        >
+          {layout.map((item) => (
+            <div key={item.i} className="grid-item" data-grid={item}>
+              {item.i}
+            </div>
+          ))}
+        </GridLayout>
+      </div>
+      <div className="widgets">
+        {widgets.map((widget, index) => (
+          <div
+            key={index}
+            className="widget"
+            draggable
+            onDragStart={(e) => onDragStart(e, widget)}
+          >
+            {widget}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default BalanceDetail;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* BalanceDetail.css */
+
+.App {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #000;
+    height: 100vh;
+}
+
+.widgets {
+    width: 30%;
+    margin: 10px;
+    background-color: #333;
+    padding: 20px;
+    border: 1px solid #444;
+    min-width: 300px; /* Minimum width */
+    min-height: 600px; /* Minimum height */
+}
+
+.widget {
+    background-color: #888;
+    color: #ddd;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 4px;
+    cursor: grab;
+    text-align: center;
+}
+
+.page {
+    width: 60%;
+    min-height: 635px;
+    margin: 20px;
+    background-color: #333;
+    padding: 20px;
+    border: 1px solid #444;
+    min-width: 800px; /* Minimum width */
+    min-height: 600px; /* Minimum height */
+}
+
+.my-grid {
+    background-color: #222;
+    border: 1px dashed #555;
+    height: 100%;
+    min-height: 600px;
+}
+
+.grid-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ddd;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 4px;
+    background-color: #888;
+    min-width: 100px;
+    min-height: 100px;
+    cursor: move;
+    position: relative; /* Ensure resizing handles are visible */
+}
+
+/* Add these styles for resizing handles */
+.react-grid-item {
+    position: relative;
+}
+
+.react-resizable-handle {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+.react-resizable-handle-se { bottom: 0; right: 0; cursor: se-resize; }
+.react-resizable-handle-sw { bottom: 0; left: 0; cursor: sw-resize; }
+.react-resizable-handle-ne { top: 0; right: 0; cursor: ne-resize; }
+.react-resizable-handle-nw { top: 0; left: 0; cursor: nw-resize; }

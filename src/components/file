@@ -1,0 +1,61 @@
+import React from "react";
+import ClaimCard from "./ClaimCard";
+// import { styled } from '@mui/material/styles';
+// import Box from '@mui/material/Box';
+// import Paper from '@mui/material/Paper';
+// import Grid from '@mui/material/Grid';
+import "./BalanceDetail.css";
+// import 'react-grid-layout/css/styles.css';
+// import 'react-resizable/css/styles.css';
+
+// const Item = styled(Paper)(({ theme }) => ({
+//   // backgroundColor: theme.palette.mode === 'light' ? '#1A2027' : '#fff',
+//   ...theme.typography.body2,
+//   padding: theme.spacing(1),
+//   textAlign: 'center',
+//   color: 'black',
+//   backgroundColor: 'pink',
+// }));
+const BalanceDetail = () => {
+  return (
+    <div></div>
+      // <div className="content">
+      //   <div className="content-tab box">
+      //     <ClaimCard />
+      //   </div>
+      //   <div className="content-tab box">
+      //     <ClaimCard />
+      //   </div>
+      //   <div className="content-tab box">
+      //     <ClaimCard />
+      //   </div>
+      // </div>
+    //   <Box sx={{ flexGrow: 1 }}>
+    //   <Grid container spacing={3} >
+    //     <Grid item xs={12}>
+    //       <Item>xs=12</Item>
+    //     </Grid>
+    //     <Grid item xs={6}>
+    //       <Item>xs=6</Item>
+    //     </Grid>
+    //     <Grid item xs={6}>
+    //       <Item>xs=6</Item>
+    //     </Grid>
+    //     <Grid item xs={3}>
+    //       <Item>xs=3</Item>
+    //     </Grid>
+    //     <Grid item xs={3}>
+    //       <Item>xs=3</Item>
+    //     </Grid>
+    //     <Grid item xs={7}>
+    //       <Item>xs=6</Item>
+    //     </Grid>
+    //     {/* <Grid item xs={3}>
+    //       <Item>xs=3</Item>
+    //     </Grid> */}
+    //   </Grid>
+    // </Box>
+  );
+};
+
+export default BalanceDetail;

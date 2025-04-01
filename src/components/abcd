@@ -1,0 +1,21 @@
+const handleResize = (layout, oldItem, newItem, placeholder, e, element) => {
+    console.log(oldItem, newItem, layout);
+    // shift 
+
+    // const updatedLayout = [...layout];
+    // const index = updatedLayout.findIndex((item) => item.i === newItem.i);
+    // updatedLayout[index] = newItem;
+
+    // // Check for collisions and adjust the layout accordingly
+    // for (let i = 0; i < updatedLayout.length; i++) {
+    //   if (
+    //     i !== index &&
+    //     updatedLayout[i].x >= newItem.x &&
+    //     updatedLayout[i].y === newItem.y
+    //   ) {
+    //     updatedLayout[i].x = newItem.x + newItem.w;
+    //   }
+    // }
+
+    // onLayoutChange(updatedLayout);
+  };

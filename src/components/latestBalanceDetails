@@ -1,0 +1,32 @@
+import React from "react";
+import GridLayout from 'react-grid-layout';
+import 'react-grid-layout/css/styles.css';
+import 'react-resizable/css/styles.css';
+
+import "./BalanceDetail.css";
+
+const BalanceDetail = () => {
+  const gridLayoutProps = {
+    className: 'my-grid',
+    cols: 12,
+    rowHeight: 80,
+    width: 2200
+  };
+  const layoutConfig = [
+    { i: 'item1', x: 1, y: 5, w: 2, h: 3, isResizable: false, isDraggable: true },
+    { i: 'item2', x: 2, y: 0, w: 4, h: 3 },
+    { i: 'item3', x: 4, y: 0, w: 6, h: 3 },
+    { i: 'item4', x: 6, y: 0, w: 8, h: 3 },
+   
+  ];
+  return (
+    <GridLayout layout={layoutConfig} {...gridLayoutProps}>
+      <div key="item1" style={{ background: '#ff4d4f' }}>Item 1</div>
+      <div key="item2" style={{ background: '#40a9ff' }}>Item 2</div>
+      <div key="item3" style={{ background: '#50B498' }}>Item 3</div>
+      <div key="item4" style={{ background: '#F7B5CA' }}>Item 4</div>
+    </GridLayout>
+  );
+};
+
+export default BalanceDetail;
